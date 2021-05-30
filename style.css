@@ -45,12 +45,18 @@ h1 {
 }
 
 .grid-cell-top-border {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     border-style: solid;
     border-top-width: 2px;
     border-color: #C2C2C2;
 }
 
 .grid-cell-right-border {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     border-style: solid;
     border-right-width: 2px;
     border-color: #C2C2C2;
