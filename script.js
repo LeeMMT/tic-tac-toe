@@ -9,7 +9,7 @@ const gameBoard = (function() {
     let gridCells = ['O', '', '', '', 'X', '', '', '', ''];
     const updateBoard = function() {
         gridCells.forEach(element => {
-        document.querySelector(`div[data-cell="${gridCells.indexOf(element)}"]`).textContent = element;
+        document.querySelector(`div[data-cell="${gridCells.indexOf(element)}"] p`).textContent = element;
     })
     }
     return {
