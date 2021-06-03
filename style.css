@@ -1,3 +1,10 @@
+html {
+    box-sizing: border-box;
+  }
+  *, *:before, *:after {
+    box-sizing: inherit;
+  }
+
 body {
     font-family: Arial, Helvetica, sans-serif;
     font-size: 16px;
@@ -32,7 +39,6 @@ h1 {
 }
 
 #game-board {
-    box-sizing: border-box;
     height: 400px;
     width: 400px;
     display: grid;
@@ -74,4 +80,74 @@ h1 {
     border-radius: 6px;
     margin-top: 6px;
     margin-bottom: auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-areas: "p1 start p2";
+    font-size: 1.2em;
+    padding: 0px;
+}
+
+#p1 {
+    
+}
+
+#start {
+    font-weight: 600;
+}
+
+#p2 {
+    
+}
+
+#p1div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    grid-area: "p1";
+}
+
+#start-div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-style: solid;
+    border-width: 2px;
+    border-left-color: #4C4C6B;
+    border-right-color: #4C4C6B;
+    border-top-width: 0px;
+    border-bottom-width: 0px;
+    grid-area: "start";
+}
+
+#p2div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    grid-area: "p2";
+}
+
+#control-panel i {
+    margin-left: 6px;
+    margin-right: 4px;
+}
+
+#control-panel input {
+    width: 100%;
+    display: block;
+    border-style: none;
+    outline: none;
+    background-color: transparent;
+}
+
+#control-panel input:hover {
+    cursor: text;
+}
+
+#control-panel input:focus {
+    border: none;
+}
+
+#p1div:hover, #start-div:hover, #p2div:hover {
+    cursor: pointer;
+    background-color: #4C4C6B;
 }
