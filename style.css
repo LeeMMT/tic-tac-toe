@@ -50,19 +50,19 @@ h1 {
     box-shadow: 0px 3px 10px 3px inset rgba(0, 0, 0, 0.7);
 }
 
-.grid-cell-top-border {
+.grid-cell {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.grid-cell-top-border {
     border-style: solid;
     border-top-width: 2px;
     border-color: #4C4C6B;
 }
 
 .grid-cell-right-border {
-    display: flex;
-    align-items: center;
-    justify-content: center;
     border-style: solid;
     border-right-width: 2px;
     border-color: #4C4C6B;
