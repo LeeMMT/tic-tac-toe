@@ -103,10 +103,9 @@ h1 {
     display: flex;
     align-items: center;
     justify-content: center;
-    grid-area: "p1";
 }
 
-#start-div {
+#reset {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -116,14 +115,13 @@ h1 {
     border-right-color: #4C4C6B;
     border-top-width: 0px;
     border-bottom-width: 0px;
-    grid-area: "start";
+    font-weight: 500;
 }
 
 #p2div {
     display: flex;
     align-items: center;
     justify-content: center;
-    grid-area: "p2";
 }
 
 #control-panel i {

@@ -1,5 +1,3 @@
-const cells = document.querySelectorAll('div#game-board div');
-
 const game = (function() {
     let playerTurn;
     return {
@@ -8,6 +6,7 @@ const game = (function() {
 })();
 
 const gameBoard = (function() {
+    const cells = document.querySelectorAll('div#game-board div');
     let gridCells = ['', '', '', '', '', '', '', '', ''];
     const updateBoard = function() {
         cells.forEach(element => {
@@ -16,8 +15,10 @@ const gameBoard = (function() {
     console.log(gridCells);
     }
     const addMarker = function(e) {
+        if (!e.target.children.textContent) {
             gridCells[e.target.getAttribute('data-cell')] = game.playerTurn.marker;
             updateBoard();
+        }   
     }
     return {
         addMarker
