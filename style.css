@@ -38,12 +38,12 @@ h1 {
     margin-bottom: 20px;
 }
 
-#x-marker {
+.x-marker {
     color: #DF1674;
     font-weight: 600;
 }
 
-#o-marker {
+.o-marker {
     color: #0E79B2;
     font-weight: 600;
 }
