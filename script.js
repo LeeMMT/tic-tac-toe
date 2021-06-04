@@ -33,7 +33,9 @@ const gameBoard = (function() {
             updateBoard();
             (game.playerTurn === players.player1) ? game.playerTurn = players.player2: game.playerTurn = players.player1;
             console.log(gridCells);
-        }   
+        } else if (game.gameStarted === false) {
+            document.querySelector('#start-reset').classList.toggle('blink-bg');
+        }  
     }
     const resetBoard = function(e) {
         gridCells = ['', '', '', '', '', '', '', '', ''];
@@ -89,6 +91,7 @@ function onPageLoad() {
     swapMarkerBtn = document.querySelector('#icon-swap').addEventListener('click', players.swapMarkers);
     document.querySelector('#game-board').addEventListener('click', gameBoard.addMarker);
     document.querySelector('#start-reset').addEventListener('click', game.startOrReset);
+    document.querySelector('#start-reset').addEventListener('animationend', () => document.querySelector('#start-reset').classList.toggle('blink-bg'));
     game.playerTurn = players.player1;
 }
 

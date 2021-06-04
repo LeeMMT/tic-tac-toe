@@ -122,8 +122,20 @@ h1 {
     border-width: 0px 2px 0px 0px;
     border-color: #4C4C6B;
     font-size: 1em;
-    font-weight: 500;
+    font-weight: 600;
     background-color: #A0A0BB;
+}
+
+@keyframes blinkingBackground{
+    0%		{ background-color: #A0A0BB;}
+    25%		{ background-color: #4C4C6B;}
+    50%		{ background-color: #A0A0BB;}
+    75%		{ background-color: #4C4C6B;}
+    100%	{ background-color: #A0A0BB;}
+}
+
+.blink-bg{
+    animation: blinkingBackground 0.9s 1.5;
 }
 
 #p2div {
