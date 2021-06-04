@@ -1,8 +1,16 @@
 const game = (function() {
     let playerTurn;
     let gameStarted = false;
+    const startOrReset = function(e) {
+        if (this.children[0].textContent === "Start") {
+            game.gameStarted = true;
+            this.children[0].textContent = "Reset";
+        } else {
+            gameBoard.resetBoard(this);
+        }
+    }
     return {
-        playerTurn, gameStarted
+        playerTurn, gameStarted, startOrReset
     }    
 })();
 
@@ -11,23 +19,29 @@ const gameBoard = (function() {
     let gridCells = ['', '', '', '', '', '', '', '', ''];
     const updateBoard = function() {
         cells.forEach(element => {
-        element.children[0].textContent = gridCells[element.getAttribute('data-cell')];
-        if (element.children[0].textContent === "X") {
-            element.children[0].classList.add('x-marker')
-        } else if (element.children[0].textContent === "O") {
-            element.children[0].classList.add('o-marker')
+            element.children[0].textContent = gridCells[element.getAttribute('data-cell')];
+            if (element.children[0].textContent === "X") {
+                element.children[0].classList.add('x-marker')
+            } else if (element.children[0].textContent === "O") {
+                element.children[0].classList.add('o-marker')
         }
     })
     }
     const addMarker = function(e) {
-        if (!e.target.children.textContent) {
+        if (!e.target.children.textContent && game.gameStarted === true) {
             gridCells[e.target.getAttribute('data-cell')] = game.playerTurn.marker;
             updateBoard();
             (game.playerTurn === players.player1) ? game.playerTurn = players.player2: game.playerTurn = players.player1;
         }   
     }
+    const resetBoard = function(e) {
+        gridCells = ['', '', '', '', '', '', '', '', ''];
+        updateBoard();
+        game.gameStarted = false;
+        e.children[0].textContent = "Start";
+    }
     return {
-        addMarker
+        gridCells, updateBoard, addMarker, resetBoard
     };
 })();
 
@@ -35,14 +49,12 @@ const players = (function() {
     let player1 = {
         name: "Player 1",
         marker: "X",
-        markerColor: "#DF1674"
     }
     let player2 = {
         name: "Player 2",
         marker: "O",
-        markerColor: "#0E79B2"
     }
-    swapMarkers = function() {
+    const swapMarkers = function() {
         if (game.gameStarted) {
             return
         }
@@ -63,13 +75,10 @@ const players = (function() {
     }
 })();
 
-const player = function(name, marker) {
-    return {name, marker}
-}
-
 function onPageLoad() {
-    swapMarkerBtn = document.querySelector('#icon-swap').addEventListener('click', swapMarkers);
+    swapMarkerBtn = document.querySelector('#icon-swap').addEventListener('click', players.swapMarkers);
     document.querySelector('#game-board').addEventListener('click', gameBoard.addMarker);
+    document.querySelector('#start-reset').addEventListener('click', game.startOrReset);
     game.playerTurn = players.player1;
 }
 
