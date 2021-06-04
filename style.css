@@ -19,12 +19,22 @@ body {
     align-items: center;  
 }
 
+#icon-swap {
+    color: #FBFEF9;
+    margin-top: auto;
+    margin-bottom: 6px;
+}
+
+#icon-swap:hover {
+    cursor: pointer;
+    transform: scale(1.2);
+}
+
 h1 {
     font-size: 1.6em;
     letter-spacing: 8px;
     font-weight: 500;
     color: #FBFEF9;
-    margin-top: auto;
     margin-bottom: 20px;
 }
 
@@ -91,10 +101,6 @@ h1 {
     
 }
 
-#start {
-    font-weight: 600;
-}
-
 #p2 {
     
 }
@@ -116,12 +122,21 @@ h1 {
     border-top-width: 0px;
     border-bottom-width: 0px;
     font-weight: 500;
+    background-color: #A0A0BB;
 }
 
 #p2div {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+#p1-icon {
+    color: #DF1674;
+}
+
+#p2-icon {
+    color: #0E79B2;
 }
 
 #control-panel i {
@@ -145,7 +160,7 @@ h1 {
     border: none;
 }
 
-#p1div:hover, #start-div:hover, #p2div:hover {
+#p1div:hover, #reset:hover, #p2div:hover {
     cursor: pointer;
     background-color: #4C4C6B;
 }
