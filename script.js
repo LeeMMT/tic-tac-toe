@@ -10,8 +10,8 @@ const gameBoard = (function() {
     const updateBoard = function() {
         gridCells.forEach(element => {
         document.querySelector(`div[data-cell="${gridCells.indexOf(element)}"] p`).textContent = element;
-        console.log(gridCells);
     })
+    console.log(gridCells);
     }
     const addMarker = function(e) {
             gridCells[e.target.getAttribute('data-cell')] = game.playerTurn.marker;
