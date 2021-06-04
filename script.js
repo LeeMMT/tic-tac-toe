@@ -32,13 +32,23 @@ const gameBoard = (function() {
             gridCells[e.target.getAttribute('data-cell')] = game.playerTurn.marker;
             updateBoard();
             (game.playerTurn === players.player1) ? game.playerTurn = players.player2: game.playerTurn = players.player1;
+            console.log(gridCells);
         }   
     }
     const resetBoard = function(e) {
         gridCells = ['', '', '', '', '', '', '', '', ''];
+        cells.forEach(element => {
+            if (element.children[0].classList.contains('x-marker')) {
+                element.children[0].classList.remove('x-marker');
+            }
+            if (element.children[0].classList.contains('o-marker')) {
+                element.children[0].classList.remove('o-marker');
+            }
+        })
         updateBoard();
         game.gameStarted = false;
         e.children[0].textContent = "Start";
+        game.playerTurn = players.player1;
     }
     return {
         gridCells, updateBoard, addMarker, resetBoard
