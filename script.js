@@ -1,18 +1,21 @@
 const game = (function() {
-    
+    let playerTurn;
+    return {
+        playerTurn
+    }    
 })();
 
 const gameBoard = (function() {
-    let gridCells = ['O', '', '', '', 'X', '', '', '', ''];
+    let gridCells = ['', '', '', '', '', '', '', '', ''];
     const updateBoard = function() {
         gridCells.forEach(element => {
         document.querySelector(`div[data-cell="${gridCells.indexOf(element)}"] p`).textContent = element;
+        console.log(gridCells);
     })
     }
     const addMarker = function(e) {
-        if (!e.target.children[0].textContent) {
-            e.target.children[0].textContent = players.player2.marker;
-        }
+            gridCells[e.target.getAttribute('data-cell')] = game.playerTurn.marker;
+            updateBoard();
     }
     return {
         addMarker
@@ -37,4 +40,9 @@ const player = function(name, marker) {
     return {name, marker}
 }
 
-document.querySelector('#game-board').addEventListener('click', gameBoard.addMarker);
+function onPageLoad() {
+    document.querySelector('#game-board').addEventListener('click', gameBoard.addMarker);
+    game.playerTurn = players.player1;
+}
+
+onPageLoad();

@@ -44,7 +44,7 @@ h1 {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr 1fr;
-    background-color: #FBFEF9;
+    background-color: #A0A0BB;
     border-width: 0px;
     border-radius: 6px;
     box-shadow: 0px 3px 10px 3px inset rgba(0, 0, 0, 0.7);
@@ -75,7 +75,7 @@ h1 {
 #control-panel {
     height: 50px;
     width: 400px;
-    background-color: #FBFEF9;
+    background-color: #A0A0BB;
     border-width: 0px;
     border-radius: 6px;
     margin-top: 6px;
