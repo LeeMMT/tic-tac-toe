@@ -1,3 +1,5 @@
+const cells = document.querySelectorAll('div#game-board div');
+
 const game = (function() {
     let playerTurn;
     return {
@@ -8,8 +10,8 @@ const game = (function() {
 const gameBoard = (function() {
     let gridCells = ['', '', '', '', '', '', '', '', ''];
     const updateBoard = function() {
-        gridCells.forEach(element => {
-        document.querySelector(`div[data-cell="${gridCells.indexOf(element)}"] p`).textContent = element;
+        cells.forEach(element => {
+        element.children[0].textContent = gridCells[element.getAttribute('data-cell')];
     })
     console.log(gridCells);
     }
