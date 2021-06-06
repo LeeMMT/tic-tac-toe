@@ -126,7 +126,7 @@ h1 {
     background-color: #A0A0BB;
 }
 
-@keyframes blinkingBackground{
+@keyframes blinkingBackground {
     0%		{ background-color: #A0A0BB;}
     25%		{ background-color: #4C4C6B;}
     50%		{ background-color: #A0A0BB;}
@@ -134,7 +134,7 @@ h1 {
     100%	{ background-color: #A0A0BB;}
 }
 
-.blink-bg{
+.blink-bg {
     animation: blinkingBackground 0.9s 1.5;
 }
 
@@ -176,4 +176,28 @@ h1 {
 #p1div:hover, #start-reset:hover, #p2div:hover {
     cursor: pointer;
     background-color: #4C4C6B;
+}
+
+@keyframes blinkingX {
+    0%		{ background-color: #DF1674;}
+    25%		{ background-color: #E9207E;}
+    50%		{ background-color: #DF1674;}
+    75%		{ background-color: #E9207E;}
+    100%	{ background-color: #DF1674;}
+}
+
+.blink-x {
+    animation: blinkingBackground 0.9s 3;
+}
+
+@keyframes blinkingO {
+    0%		{ background-color: #0E79B2;}
+    25%		{ background-color: #118DD0;}
+    50%		{ background-color: #0E79B2;}
+    75%		{ background-color: #118DD0;}
+    100%	{ background-color: #0E79B2;}
+}
+
+.blink-o{
+    animation: blinkingBackground 0.9s 3;
 }
