@@ -186,7 +186,7 @@ h1 {
     100%	{color: #DF1674;}
 }
 
-.blink-x {
+.blink-X {
     animation: blinkingX 0.9s 3;
 }
 
@@ -198,6 +198,6 @@ h1 {
     100%	{color: #0E79B2;}
 }
 
-.blink-o{
+.blink-O{
     animation: blinkingO 0.9s 3;
 }

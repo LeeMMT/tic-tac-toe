@@ -118,7 +118,7 @@ const gameBoard = (function() {
             console.log(`${game.winner.name} is the winner!`);
         };
         if (game.winner) {
-            game.winner.cells.forEach(element => element.children[0].classList.toggle('blink-x'));
+            game.winner.cells.forEach(element => element.children[0].classList.toggle(`blink-${game.winner.marker}`));
         }
     }
     return {
