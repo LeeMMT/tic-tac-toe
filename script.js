@@ -18,6 +18,7 @@ const game = (function() {
 const gameBoard = (function() {
     const cells = document.querySelectorAll('div#game-board div');
     let gridCells = ['', '', '', '', '', '', '', '', ''];
+    const swapMarkerBtn = document.querySelector('#icon-swap')
     const updateBoard = function() {
         cells.forEach(element => {
             element.children[0].textContent = gridCells[element.getAttribute('data-cell')];
@@ -40,6 +41,9 @@ const gameBoard = (function() {
     }
     const resetBoard = function(e) {
         gridCells = ['', '', '', '', '', '', '', '', ''];
+        document.querySelector('p.fade-in').remove();
+        game.winner.cells.forEach(element => element.children[0].classList.remove(`blink-${game.winner.marker}`));
+        game.winner = null;
         cells.forEach(element => {
             if (element.children[0].classList.contains('x-marker')) {
                 element.children[0].classList.remove('x-marker');
@@ -52,7 +56,6 @@ const gameBoard = (function() {
         game.gameStarted = false;
         e.children[0].textContent = "Start";
         game.playerTurn = players.player1;
-        game.winner = null;
     }
 
     const arrayChecker = (obj) => {
@@ -118,11 +121,15 @@ const gameBoard = (function() {
             console.log(`${game.winner.name} is the winner!`);
         };
         if (game.winner) {
-            game.winner.cells.forEach(element => element.children[0].classList.toggle(`blink-${game.winner.marker}`));
+            game.winner.cells.forEach(element => element.children[0].classList.add(`blink-${game.winner.marker}`));
+            const resultText = document.createElement('p');
+            resultText.classList.add('fade-in');
+            resultText.textContent = `${game.winner.name} is the winner`
+            document.querySelector('#flex-row').appendChild(resultText);
         }
     }
     return {
-        cells, gridCells, addMarker, resetBoard, updateBoard, winCheck
+        cells, gridCells, swapMarkerBtn, addMarker, resetBoard, updateBoard, winCheck
     };
 })();
 
@@ -157,7 +164,7 @@ const players = (function() {
 })();
 
 function onPageLoad() {
-    swapMarkerBtn = document.querySelector('#icon-swap').addEventListener('click', players.swapMarkers);
+    gameBoard.swapMarkerBtn.addEventListener('click', players.swapMarkers);
     document.querySelector('#game-board').addEventListener('click', gameBoard.addMarker);
     document.querySelector('#start-reset').addEventListener('click', game.startOrReset);
     document.querySelector('#start-reset').addEventListener('animationend', () => document.querySelector('#start-reset').classList.toggle('blink-bg'));
