@@ -179,25 +179,25 @@ h1 {
 }
 
 @keyframes blinkingX {
-    0%		{ background-color: #DF1674;}
-    25%		{ background-color: #E9207E;}
-    50%		{ background-color: #DF1674;}
-    75%		{ background-color: #E9207E;}
-    100%	{ background-color: #DF1674;}
+    0%		{color: #DF1674;}
+    25%		{color: #EB3389;}
+    50%		{color: #DF1674;}
+    75%		{color: #EB3389;}
+    100%	{color: #DF1674;}
 }
 
 .blink-x {
-    animation: blinkingBackground 0.9s 3;
+    animation: blinkingX 0.9s 3;
 }
 
 @keyframes blinkingO {
-    0%		{ background-color: #0E79B2;}
-    25%		{ background-color: #118DD0;}
-    50%		{ background-color: #0E79B2;}
-    75%		{ background-color: #118DD0;}
-    100%	{ background-color: #0E79B2;}
+    0%		{color: #0E79B2;}
+    25%		{color: #129AE2;}
+    50%		{color: #0E79B2;}
+    75%		{color: #129AE2;}
+    100%	{color: #0E79B2;}
 }
 
 .blink-o{
-    animation: blinkingBackground 0.9s 3;
+    animation: blinkingO 0.9s 3;
 }

@@ -1,6 +1,7 @@
 const game = (function() {
     let playerTurn;
     let gameStarted = false;
+    let winner = null;
     const startOrReset = function(e) {
         if (this.children[0].textContent === "Start") {
             game.gameStarted = true;
@@ -10,7 +11,7 @@ const game = (function() {
         }
     }
     return {
-        playerTurn, gameStarted, startOrReset
+        playerTurn, gameStarted, startOrReset, winner
     }    
 })();
 
@@ -29,7 +30,7 @@ const gameBoard = (function() {
     winCheck();
     }
     const addMarker = function(e) {
-        if (!e.target.children.textContent && game.gameStarted === true) {
+        if (!e.target.children.textContent && game.gameStarted === true && !game.winner) {
             gridCells[e.target.getAttribute('data-cell')] = game.playerTurn.marker;
             updateBoard();
             (game.playerTurn === players.player1) ? game.playerTurn = players.player2: game.playerTurn = players.player1;
@@ -51,51 +52,77 @@ const gameBoard = (function() {
         game.gameStarted = false;
         e.children[0].textContent = "Start";
         game.playerTurn = players.player1;
+        game.winner = null;
     }
 
-    const arrayChecker = (collection) => {
-        const marker = collection[0];
-        return (marker !== "" && collection[0] === collection[1] && collection[0] === collection[2]);
+    const arrayChecker = (obj) => {
+        const marker = obj.array[0];
+        //return (marker !== "" && collection[0] === collection[1] && collection[0] === collection[2]);
+        if (marker === "") return false;
+        if (obj.array.every(element => element === marker)) {
+            game.winner = (marker === players.player1.marker) ? players.player1 : players.player2;
+            game.winner.cells = [cells[obj.cells[0]], cells[obj.cells[1]], cells[obj.cells[2]]];
+            return true;
+    }    
     }
 
     const winCheck = function() {
-        const topRow = gridCells.slice(0, 3);
-        const midRow = gridCells.slice(3, 6);
-        const botRow = gridCells.slice(6);
-        const leftCol = [gridCells[0], gridCells[3], gridCells[6]];
-        const midCol = [gridCells[1], gridCells[4], gridCells[7]];
-        const rightCol = [gridCells[2], gridCells[5], gridCells[8]];
-        const firstDiag = [gridCells[0], gridCells[4], gridCells[8]];
-        const secDiag = [gridCells[2], gridCells[4], gridCells[6]];
+        const topRow = {
+            array: gridCells.slice(0, 3),
+            cells: [0, 1, 2]
+        };
+        const midRow = {
+            array: gridCells.slice(3, 6),
+            cells: [3, 4, 5]
+        };
+        const botRow = {
+            array: gridCells.slice(6),
+            cells: [6,7,8]
+        };
+        const leftCol = {
+            array: [gridCells[0], gridCells[3], gridCells[6]],
+            cells: [0, 3, 6]
+        };
+        const midCol = {
+            array: [gridCells[1], gridCells[4], gridCells[7]],
+            cells: [1, 4, 7]
+        };
+        const rightCol = {
+            array: [gridCells[2], gridCells[5], gridCells[8]],
+            cells: [2, 5, 8]
+        };
+        const firstDiag = {
+            array: [gridCells[0], gridCells[4], gridCells[8]],
+            cells: [0, 4, 8]
+        };
+        const secDiag = {
+            array: [gridCells[2], gridCells[4], gridCells[6]],
+            cells: [2, 4, 6]
+        };
 
         if (arrayChecker(topRow)) {
-            const winningPlayer = (players.player1.marker == topRow[0]) ? players.player1.name : players.player2.name;
-            console.log(`${winningPlayer} is the winner!`);
+            console.log(`${game.winner.name} is the winner!`);
         } else if (arrayChecker(midRow)) {
-            const winningPlayer = (players.player1.marker === midRow[0]) ? players.player1.name : players.player2.name;
-            console.log(`${winningPlayer} is the winner!`);
+            console.log(`${game.winner.name} is the winner!`);
         } else if (arrayChecker(botRow)) {
-            const winningPlayer = (players.player1.marker === botRow[0]) ? players.player1.name : players.player2.name;
-            console.log(`${winningPlayer} is the winner!`);
+            console.log(`${game.winner.name} is the winner!`);
         } else if (arrayChecker(leftCol)) {
-            const winningPlayer = (players.player1.marker === leftCol[0]) ? players.player1.name : players.player2.name;
-            console.log(`${winningPlayer} is the winner!`);
+            console.log(`${game.winner.name} is the winner!`);
         } else if (arrayChecker(midCol)) {
-            const winningPlayer = (players.player1.marker === midCol[0]) ? players.player1.name : players.player2.name;
-            console.log(`${winningPlayer} is the winner!`);
+            console.log(`${game.winner.name} is the winner!`);
         } else if (arrayChecker(rightCol)) {
-            const winningPlayer = (players.player1.marker === rightCol[0]) ? players.player1.name : players.player2.name;
-            console.log(`${winningPlayer} is the winner!`);
+            console.log(`${game.winner.name} is the winner!`);
         } else if (arrayChecker(firstDiag)) {
-            const winningPlayer = (players.player1.marker === firstDiag[0]) ? players.player1.name : players.player2.name;
-            console.log(`${winningPlayer} is the winner!`);
+            console.log(`${game.winner.name} is the winner!`);
         } else if (arrayChecker(secDiag)) {
-            const winningPlayer = (players.player1.marker === secDiag[0]) ? players.player1.name : players.player2.name;
-            console.log(`${winningPlayer} is the winner!`);
+            console.log(`${game.winner.name} is the winner!`);
         };
+        if (game.winner) {
+            game.winner.cells.forEach(element => element.children[0].classList.toggle('blink-x'));
+        }
     }
     return {
-        gridCells, addMarker, resetBoard, updateBoard, winCheck
+        cells, gridCells, addMarker, resetBoard, updateBoard, winCheck
     };
 })();
 
