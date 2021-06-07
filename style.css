@@ -220,14 +220,7 @@ h1 {
     grid-template-areas: "p1 start p2";
     font-size: 1.2em;
     padding: 0px;
-}
-
-#p1 {
-    
-}
-
-#p2 {
-    
+    overflow: hidden;
 }
 
 #p1div {
@@ -291,7 +284,7 @@ h1 {
 }
 
 #control-panel input:hover {
-    cursor: text;
+    cursor: pointer;
 }
 
 #control-panel input:focus {

@@ -167,6 +167,10 @@ const players = (function() {
         name: "Player 2",
         marker: "O",
     }
+    const p1Name = document.querySelector('#p1div');
+    const p2Name = document.querySelector('#p2div');
+    const p1NameInput = document.querySelector('#p1');
+    const p2NameInput = document.querySelector('#p2');
     const swapMarkers = function() {
         if (game.gameStarted) {
             return
@@ -183,8 +187,11 @@ const players = (function() {
             document.querySelector('#p2-icon').style.color = "#0E79B2";
         }
     }
+    const toggleFocus = function(e) {
+        this.children[1].focus();
+    }
     return {
-        player1, player2, swapMarkers
+        player1, player2, p1Name, p2Name, p1NameInput, p2NameInput, swapMarkers, toggleFocus
     }
 })();
 
@@ -194,6 +201,20 @@ function onPageLoad() {
     document.querySelector('#start-reset').addEventListener('click', game.startOrReset);
     document.querySelector('#start-reset').addEventListener('animationend', () => document.querySelector('#start-reset').classList.toggle('blink-bg'));
     game.playerTurn = players.player1;
+    players.p1Name.addEventListener('click', players.toggleFocus);
+    players.p2Name.addEventListener('click', players.toggleFocus);
+    players.p1NameInput.addEventListener('input', () => players.player1.name = players.p1NameInput.value);
+    players.p2NameInput.addEventListener('input', () => players.player2.name = players.p2NameInput.value);
+    players.p1NameInput.addEventListener('keydown', e => {
+        if (e.key === "Enter") {
+            players.p1NameInput.blur();
+        }
+    });
+    players.p2NameInput.addEventListener('keydown', e => {
+        if (e.key === "Enter") {
+            players.p2NameInput.blur();
+        }
+    });
 }
 
 onPageLoad();
