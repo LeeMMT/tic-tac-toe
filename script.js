@@ -118,23 +118,14 @@ const gameBoard = (function() {
             cells: [2, 4, 6]
         };
 
-        if (arrayChecker(topRow)) {
-            console.log(`${game.winner.name} is the winner!`);
-        } else if (arrayChecker(midRow)) {
-            console.log(`${game.winner.name} is the winner!`);
-        } else if (arrayChecker(botRow)) {
-            console.log(`${game.winner.name} is the winner!`);
-        } else if (arrayChecker(leftCol)) {
-            console.log(`${game.winner.name} is the winner!`);
-        } else if (arrayChecker(midCol)) {
-            console.log(`${game.winner.name} is the winner!`);
-        } else if (arrayChecker(rightCol)) {
-            console.log(`${game.winner.name} is the winner!`);
-        } else if (arrayChecker(firstDiag)) {
-            console.log(`${game.winner.name} is the winner!`);
-        } else if (arrayChecker(secDiag)) {
-            console.log(`${game.winner.name} is the winner!`);
-        };
+        arrayChecker(topRow);
+        arrayChecker(midRow);
+        arrayChecker(botRow);
+        arrayChecker(leftCol);
+        arrayChecker(midCol);
+        arrayChecker(rightCol);
+        arrayChecker(firstDiag);
+        arrayChecker(secDiag);
 
         if (game.winner) {
             game.winner.cells.forEach(element => element.children[0].classList.add(`blink-${game.winner.marker}`));

@@ -171,6 +171,15 @@ h1 {
     border-width: 0px;
     border-radius: 6px;
     box-shadow: 0px 3px 10px 3px inset rgba(0, 0, 0, 0.7);
+    overflow: hidden;
+}
+
+#game-board p {
+  font-size: 5em;
+}
+
+#game-board:hover {
+  cursor: pointer;
 }
 
 .grid-cell {
@@ -201,10 +210,6 @@ h1 {
 
 .blink-border {
   animation: blinkingBorder 0.9s 3;
-}
-
-#game-board p {
-    font-size: 5em;
 }
 
 #control-panel {
