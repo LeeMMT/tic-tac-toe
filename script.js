@@ -2,6 +2,7 @@ const game = (function() {
     let playerTurn;
     let gameStarted = false;
     let winner = null;
+    let isDraw = false;
     const startOrReset = function(e) {
         if (this.children[0].textContent === "Start") {
             game.gameStarted = true;
@@ -38,7 +39,7 @@ const gameBoard = (function() {
     winCheck();
     }
     const addMarker = function(e) {
-        if (!e.target.children.textContent && game.gameStarted === true && !game.winner) {
+        if (!e.target.children.textContent && game.gameStarted === true && !game.winner & !game.isDraw) {
             gridCells[e.target.getAttribute('data-cell')] = game.playerTurn.marker;
             updateBoard();
             (game.playerTurn === players.player1) ? game.playerTurn = players.player2: game.playerTurn = players.player1;
@@ -49,16 +50,18 @@ const gameBoard = (function() {
     const resetBoard = function(e) {
         gridCells = ['', '', '', '', '', '', '', '', ''];
         game.gameStarted = false;
-        document.querySelector('p.fade-in').style.visibility = "hidden";
-        swapMarkerBtn.style.display = "initial";
-        document.querySelector('p.fade-in').remove();
-        swapMarkerBtn.style.visibility = "visible";
-        gameBoard.cells.forEach(element => element.classList.remove('blink-border'));
-        
+        game.isDraw = false;
+        if (document.querySelector('p.fade-in')) {
+            document.querySelector('p.fade-in').style.visibility = "hidden";
+            document.querySelector('p.fade-in').remove();
+        }
         if (game.winner) {
             game.winner.cells.forEach(element => element.children[0].classList.remove(`blink-${game.winner.marker}`));
             game.winner = null;
         }
+        swapMarkerBtn.style.display = "initial";
+        swapMarkerBtn.style.visibility = "visible";
+        gameBoard.cells.forEach(element => element.classList.remove('blink-border'));
         
         cells.forEach(element => {
             if (element.children[0].classList.contains('x-marker')) {
@@ -75,7 +78,6 @@ const gameBoard = (function() {
 
     const arrayChecker = (obj) => {
         const marker = obj.array[0];
-        //return (marker !== "" && collection[0] === collection[1] && collection[0] === collection[2]);
         if (marker === "") return false;
         if (obj.array.every(element => element === marker)) {
             game.winner = (marker === players.player1.marker) ? players.player1 : players.player2;
@@ -141,6 +143,7 @@ const gameBoard = (function() {
             swapMarkerBtn.style.display = "none";
             document.querySelector('#flex-row').appendChild(resultText);
             gameBoard.cells.forEach(element => element.classList.add('blink-border'));
+            game.isDraw = true;
         }
     }
 
