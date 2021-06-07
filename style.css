@@ -22,28 +22,23 @@ body {
 #flex-row {
     display: flex;
     margin-top: auto;
+    margin-bottom: 6px;
 }
 
 #flex-row p {
     color: #FBFEF9;
 }
 
-#result {
-    position: relative;
-}
-
 #icon-swap {
     color: #FBFEF9;
-    margin-top: auto;
-    margin-bottom: 6px;
 }
 
 .fade-in {
-    animation: fadeIn ease 10s;
-    -webkit-animation: fadeIn ease 10s;
-    -moz-animation: fadeIn ease 10s;
-    -o-animation: fadeIn ease 10s;
-    -ms-animation: fadeIn ease 10s;
+    animation: fadeIn ease 0.8s;
+    -webkit-animation: fadeIn ease 0.8s;
+    -moz-animation: fadeIn ease 0.8s;
+    -o-animation: fadeIn ease 0.8s;
+    -ms-animation: fadeIn ease 0.8s;
   }
   
   @keyframes fadeIn {
@@ -90,6 +85,58 @@ body {
       opacity:1;
     }
   }
+
+.fade-out {
+  animation: fadeOut ease 0.8s;
+  -webkit-animation: fadeOut ease 0.8s;
+  -moz-animation: fadeOut ease 0.8s;
+  -o-animation: fadeOut ease 0.8s;
+  -ms-animation: fadeOut ease 0.8s;
+}
+  @keyframes fadeOut {
+    0% {
+      opacity:1;
+    }
+    100% {
+      opacity:0;
+    }
+  }
+  
+  @-moz-keyframes fadeOut {
+    0% {
+      opacity:1;
+    }
+    100% {
+      opacity:0;
+    }
+  }
+  
+  @-webkit-keyframes fadeOut {
+    0% {
+      opacity:1;
+    }
+    100% {
+      opacity:0;
+    }
+  }
+  
+  @-o-keyframes fadeOut {
+    0% {
+      opacity:1;
+    }
+    100% {
+      opacity:0;
+    }
+  }
+  
+  @-ms-keyframes fadeOut {
+    0% {
+      opacity:1;
+    }
+    100% {
+      opacity:0;
+  }
+}
 
 #icon-swap:hover {
     cursor: pointer;
@@ -142,6 +189,18 @@ h1 {
     border-style: solid;
     border-right-width: 2px;
     border-color: #4C4C6B;
+}
+
+@keyframes blinkingBorder {
+  0%		{border-color: #4C4C6B;}
+  25%		{border-color: #66668F;}
+  50%		{border-color: #4C4C6B;}
+  75%		{border-color: #66668F;}
+  100%	{border-color: #4C4C6B;}
+}
+
+.blink-border {
+  animation: blinkingBorder 0.9s 3;
 }
 
 #game-board p {

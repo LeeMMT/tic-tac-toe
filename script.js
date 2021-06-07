@@ -6,7 +6,14 @@ const game = (function() {
         if (this.children[0].textContent === "Start") {
             game.gameStarted = true;
             this.children[0].textContent = "Reset";
+            gameBoard.swapMarkerBtn.addEventListener('animationend', () => {
+                if (game.gameStarted === true) {
+                    gameBoard.swapMarkerBtn.style.visibility = "hidden"
+                }
+            });
+            gameBoard.swapMarkerBtn.classList.add('fade-out');
         } else {
+            gameBoard.swapMarkerBtn.classList.remove('fade-out');
             gameBoard.resetBoard(this);
         }
     }
@@ -41,9 +48,18 @@ const gameBoard = (function() {
     }
     const resetBoard = function(e) {
         gridCells = ['', '', '', '', '', '', '', '', ''];
+        game.gameStarted = false;
+        document.querySelector('p.fade-in').style.visibility = "hidden";
+        swapMarkerBtn.style.display = "initial";
         document.querySelector('p.fade-in').remove();
-        game.winner.cells.forEach(element => element.children[0].classList.remove(`blink-${game.winner.marker}`));
-        game.winner = null;
+        swapMarkerBtn.style.visibility = "visible";
+        gameBoard.cells.forEach(element => element.classList.remove('blink-border'));
+        
+        if (game.winner) {
+            game.winner.cells.forEach(element => element.children[0].classList.remove(`blink-${game.winner.marker}`));
+            game.winner = null;
+        }
+        
         cells.forEach(element => {
             if (element.children[0].classList.contains('x-marker')) {
                 element.children[0].classList.remove('x-marker');
@@ -53,7 +69,6 @@ const gameBoard = (function() {
             }
         })
         updateBoard();
-        game.gameStarted = false;
         e.children[0].textContent = "Start";
         game.playerTurn = players.player1;
     }
@@ -120,14 +135,24 @@ const gameBoard = (function() {
         } else if (arrayChecker(secDiag)) {
             console.log(`${game.winner.name} is the winner!`);
         };
+
         if (game.winner) {
             game.winner.cells.forEach(element => element.children[0].classList.add(`blink-${game.winner.marker}`));
             const resultText = document.createElement('p');
             resultText.classList.add('fade-in');
-            resultText.textContent = `${game.winner.name} is the winner`
+            resultText.textContent = `${game.winner.name} is the winner`;
+            swapMarkerBtn.style.display = "none";
             document.querySelector('#flex-row').appendChild(resultText);
+        } else if (gridCells.every(element => element.length > 0)) {
+            const resultText = document.createElement('p');
+            resultText.classList.add('fade-in');
+            resultText.textContent = "It's a draw";
+            swapMarkerBtn.style.display = "none";
+            document.querySelector('#flex-row').appendChild(resultText);
+            gameBoard.cells.forEach(element => element.classList.add('blink-border'));
         }
     }
+
     return {
         cells, gridCells, swapMarkerBtn, addMarker, resetBoard, updateBoard, winCheck
     };
