@@ -324,3 +324,13 @@ h1 {
 .blink-O{
     animation: blinkingO 0.9s 3;
 }
+
+@media screen and (max-width: 400px) {
+  #control-panel {
+    width: 90vw;
+  }
+  #game-board {
+      width: 90vw;
+      height: 90vw;
+  }
+}
