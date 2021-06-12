@@ -5,9 +5,13 @@ const game = (function() {
     let winner = null;
     let isDraw = false;
 
+    const changeMode = e => {
+        (this.textContent === "Player") ? vsPlayer = false : vsPlayer = true;
+    }
+
     const startOrReset = function(e) {
         if (this.children[0].textContent === "Start") {
-            gameBoard.cells[5].classList.toggle('.mode-selector');
+            gameBoard.cells[5].classList.toggle('mode-selector');
             game.gameStarted = true;
             document.querySelector('#vs').style.display = "none";
             document.querySelectorAll('.mode-text').forEach(element => element.style.display = "none");
@@ -19,6 +23,7 @@ const game = (function() {
             });
             gameBoard.swapMarkerBtn.classList.add('fade-out');
         } else {
+            gameBoard.cells[5].classList.toggle('mode-selector');
             gameBoard.swapMarkerBtn.classList.remove('fade-out');
             gameBoard.resetBoard(this);
             document.querySelectorAll('p.mode-text').forEach(element => element.style.display = "initial");
@@ -219,6 +224,7 @@ const players = (function() {
 })();
 
 function onPageLoad() {
+    gameBoard.cells[5].addEventListener('click', changeMode);
     gameBoard.swapMarkerBtn.addEventListener('click', players.swapMarkers);
     document.querySelector('#game-board').addEventListener('click', gameBoard.addMarker);
     document.querySelector('#start-reset').addEventListener('click', game.startOrReset);
