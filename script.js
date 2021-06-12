@@ -1,11 +1,16 @@
 const game = (function() {
     let playerTurn;
+    let vsPlayer = true;
     let gameStarted = false;
     let winner = null;
     let isDraw = false;
+
     const startOrReset = function(e) {
         if (this.children[0].textContent === "Start") {
+            gameBoard.cells[5].classList.toggle('.mode-selector');
             game.gameStarted = true;
+            document.querySelector('#vs').style.display = "none";
+            document.querySelectorAll('.mode-text').forEach(element => element.style.display = "none");
             this.children[0].textContent = "Reset";
             gameBoard.swapMarkerBtn.addEventListener('animationend', () => {
                 if (game.gameStarted === true) {
@@ -16,8 +21,12 @@ const game = (function() {
         } else {
             gameBoard.swapMarkerBtn.classList.remove('fade-out');
             gameBoard.resetBoard(this);
+            document.querySelectorAll('p.mode-text').forEach(element => element.style.display = "initial");
+            document.querySelector('#vs').style.display = "initial";
+            game.vsPlayer = true;
         }
     }
+
     return {
         playerTurn, gameStarted, startOrReset, winner
     }    
@@ -29,17 +38,26 @@ const gameBoard = (function() {
     const swapMarkerBtn = document.querySelector('#icon-swap')
     const updateBoard = function() {
         cells.forEach(element => {
-            element.children[0].textContent = gridCells[element.getAttribute('data-cell')];
-            if (element.children[0].textContent === "X") {
-                element.children[0].classList.add('x-marker')
-            } else if (element.children[0].textContent === "O") {
-                element.children[0].classList.add('o-marker')
-        }
+            if (element.children[1]) {
+                element.children[1].textContent = gridCells[element.getAttribute('data-cell')];
+                if (element.children[1].textContent) {
+                    let marker = element.children[1].textContent;
+                element.children[1].classList.add(`${marker}-marker`);
+                }
+            }
+            if (!element.children[1]) {
+                element.children[0].textContent = gridCells[element.getAttribute('data-cell')];
+                if (element.children[0].textContent) {
+                    let marker = element.children[0].textContent;
+                element.children[0].classList.add(`${marker}-marker`);
+                }
+            }
     })
     winCheck();
     }
     const addMarker = function(e) {
-        if (!e.target.children.textContent && game.gameStarted === true && !game.winner & !game.isDraw) {
+        if (game.gameStarted === true && !game.winner && !game.isDraw && Array.from(e.target.children).every(element => element.textContent !== "X"
+        && element.textContent !== "O")) {
             gridCells[e.target.getAttribute('data-cell')] = game.playerTurn.marker;
             updateBoard();
             (game.playerTurn === players.player1) ? game.playerTurn = players.player2: game.playerTurn = players.player1;
@@ -57,20 +75,27 @@ const gameBoard = (function() {
         }
         if (game.winner) {
             game.winner.cells.forEach(element => element.children[0].classList.remove(`blink-${game.winner.marker}`));
+            game.winner.cells.forEach(element => {
+                (element.children[1]) ? element.children[1].classList.remove(`blink-${game.winner.marker}`) :
+                element.children[0].classList.remove(`blink-${game.winner.marker}`)
+            });
             game.winner = null;
         }
+
         swapMarkerBtn.style.display = "initial";
         swapMarkerBtn.style.visibility = "visible";
         gameBoard.cells.forEach(element => element.classList.remove('blink-border'));
         
         cells.forEach(element => {
-            if (element.children[0].classList.contains('x-marker')) {
-                element.children[0].classList.remove('x-marker');
-            }
-            if (element.children[0].classList.contains('o-marker')) {
-                element.children[0].classList.remove('o-marker');
+            if (element.children[0].textContent === "X" || element.children[0].textContent === "O") {
+                let marker = element.children[0].textContent;
+                element.children[0].classList.remove(`${marker}-marker`);
+            } else if (element.children[1] && element.children[1].textContent) {
+                let marker = element.children[1].textContent;
+                element.children[1].classList.remove(`${marker}-marker`);
             }
         })
+
         updateBoard();
         e.children[0].textContent = "Start";
         game.playerTurn = players.player1;
@@ -130,7 +155,11 @@ const gameBoard = (function() {
         arrayChecker(secDiag);
 
         if (game.winner) {
-            game.winner.cells.forEach(element => element.children[0].classList.add(`blink-${game.winner.marker}`));
+            game.winner.cells.forEach(element => {
+                (element.children[1]) ? element.children[1].classList.add(`blink-${game.winner.marker}`) :
+                element.children[0].classList.add(`blink-${game.winner.marker}`);
+            });
+
             const resultText = document.createElement('p');
             resultText.classList.add('fade-in');
             resultText.textContent = `${game.winner.name} is the winner`;

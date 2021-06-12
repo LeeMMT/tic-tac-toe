@@ -9,14 +9,15 @@
     <script src="https://kit.fontawesome.com/91d1dac478.js" crossorigin="anonymous"></script>
 </head>
 <body>
+    <p></p>
     <div id="container">
         <div id="flex-row">
             <i class="fas fa-exchange-alt" id="icon-swap"></i>
         </div>
-        <h1>TI<span class='x-marker'>X</span> TAC T<span class='o-marker'>O</span>E</h1>
+        <h1>TI<span class='X-marker'>X</span> TAC T<span class='O-marker'>O</span>E</h1>
         <div id='game-board'>
             <div class="grid-cell-right-border grid-cell" data-cell="0"><p></p></div><div class="grid-cell-right-border grid-cell" data-cell="1"><p></p></div><div class="grid-cell" data-cell="2"><p></p></div>
-            <div class="grid-cell-top-border grid-cell-right-border grid-cell" data-cell="3"><p></p></div><div class="grid-cell-top-border grid-cell-right-border grid-cell" data-cell="4"><p></p></div><div class="grid-cell-top-border grid-cell" data-cell="5"><p></p></div>
+            <div class="grid-cell-top-border grid-cell-right-border grid-cell" data-cell="3"><P class = "mode-text">Player</P><p></p></div><div class="grid-cell-top-border grid-cell-right-border grid-cell" data-cell="4"><p id = "vs">VS</p><p></p></div><div class="grid-cell-top-border grid-cell mode-selector" data-cell="5"><p class = "mode-text">Player</p><p></p></div>
             <div class="grid-cell-top-border grid-cell-right-border grid-cell" data-cell="6"><p></p></div><div class="grid-cell-top-border grid-cell-right-border grid-cell" data-cell="7"><p></p></div><div class="grid-cell-top-border grid-cell" data-cell="8"><p></p></div>
         </div>
         <div id='control-panel'><div id="p1div"><i class="fas fa-user-edit fa-xs" id="p1-icon"></i><input type="text" id='p1' value="Player 1"></input></div><button id="start-reset"><p>Start</p></button><div id="p2div"><i class="fas fa-user-edit fa-xs" id="p2-icon"></i><input id="p2" type="text" value="Player 2"></input></div></div>

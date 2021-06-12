@@ -151,12 +151,12 @@ h1 {
     margin-bottom: 20px;
 }
 
-.x-marker {
+.X-marker {
     color: #DF1674;
     font-weight: 600;
 }
 
-.o-marker {
+.O-marker {
     color: #0E79B2;
     font-weight: 600;
 }
@@ -178,6 +178,16 @@ h1 {
   font-size: 5em;
 }
 
+#game-board .mode-text {
+  font-size: 1.2em;
+}
+
+#game-board #vs {
+  font-size: 1.5em;
+  font-weight: 600;
+  font-style: italic;
+}
+
 #game-board:hover {
   cursor: pointer;
 }
@@ -186,6 +196,11 @@ h1 {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.mode-selector:hover {
+  background-color: #4C4C6B;
+  font-weight: 600;
 }
 
 .grid-cell-top-border {
@@ -294,6 +309,7 @@ h1 {
 
 #control-panel input:focus {
     border: none;
+    font-weight: 600;
 }
 
 #p1div:hover, #start-reset:hover, #p2div:hover {
