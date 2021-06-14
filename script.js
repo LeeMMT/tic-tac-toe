@@ -51,7 +51,7 @@ const gameBoard = (function() {
     const cells = document.querySelectorAll('div#game-board div');
     let gridCells = ['', '', '', '', '', '', '', '', ''];
     const swapMarkerBtn = document.querySelector('#icon-swap')
-    const updateBoard = function() {
+    const updateBoard = function(secondExecCheck) {
         cells.forEach(element => {
             if (element.children[1]) {
                 element.children[1].textContent = gameBoard.gridCells[element.getAttribute('data-cell')];
@@ -68,7 +68,11 @@ const gameBoard = (function() {
                 }
             }
     })
-    winCheck();
+    if (secondExecCheck) {
+        winCheck(true);
+    } else {
+        winCheck();
+    }
     }
 
     const computerMove = function() {
@@ -92,12 +96,12 @@ const gameBoard = (function() {
         if (game.gameStarted === true && !game.winner && !game.isDraw && Array.from(e.target.children).every(element => element.textContent !== "X"
         && element.textContent !== "O")) {
             gameBoard.gridCells[e.target.getAttribute('data-cell')] = game.playerTurn.marker;
-            
-            if (game.vsPlayer === false && gameBoard.gridCells.some(element => element === "")) {
+            updateBoard();
+            if (game.vsPlayer === false && gameBoard.gridCells.some(element => element === "") && !game.winner) {
                 gameBoard.gridCells[computerMove()] = players.player2.marker;
             }
-            updateBoard();
-            (game.playerTurn === players.player1) ? game.playerTurn = players.player2 : game.playerTurn = players.player1;
+        updateBoard(true);
+        (game.playerTurn === players.player1) ? game.playerTurn = players.player2 : game.playerTurn = players.player1;
         }
     }
 
@@ -148,49 +152,50 @@ const gameBoard = (function() {
     }
 
     const winCheck = function(secondExecCheck) {
-        const topRow = {
-            array: gameBoard.gridCells.slice(0, 3),
-            cells: [0, 1, 2]
-        };
-        const midRow = {
-            array: gameBoard.gridCells.slice(3, 6),
-            cells: [3, 4, 5]
-        };
-        const botRow = {
-            array: gameBoard.gridCells.slice(6),
-            cells: [6,7,8]
-        };
-        const leftCol = {
-            array: [gameBoard.gridCells[0], gameBoard.gridCells[3], gameBoard.gridCells[6]],
-            cells: [0, 3, 6]
-        };
-        const midCol = {
-            array: [gameBoard.gridCells[1], gameBoard.gridCells[4], gameBoard.gridCells[7]],
-            cells: [1, 4, 7]
-        };
-        const rightCol = {
-            array: [gameBoard.gridCells[2], gameBoard.gridCells[5], gameBoard.gridCells[8]],
-            cells: [2, 5, 8]
-        };
-        const firstDiag = {
-            array: [gameBoard.gridCells[0], gameBoard.gridCells[4], gameBoard.gridCells[8]],
-            cells: [0, 4, 8]
-        };
-        const secDiag = {
-            array: [gameBoard.gridCells[2], gameBoard.gridCells[4], gameBoard.gridCells[6]],
-            cells: [2, 4, 6]
-        };
+            const topRow = {
+                array: gameBoard.gridCells.slice(0, 3),
+                cells: [0, 1, 2]
+            };
+            const midRow = {
+                array: gameBoard.gridCells.slice(3, 6),
+                cells: [3, 4, 5]
+            };
+            const botRow = {
+                array: gameBoard.gridCells.slice(6),
+                cells: [6,7,8]
+            };
+            const leftCol = {
+                array: [gameBoard.gridCells[0], gameBoard.gridCells[3], gameBoard.gridCells[6]],
+                cells: [0, 3, 6]
+            };
+            const midCol = {
+                array: [gameBoard.gridCells[1], gameBoard.gridCells[4], gameBoard.gridCells[7]],
+                cells: [1, 4, 7]
+            };
+            const rightCol = {
+                array: [gameBoard.gridCells[2], gameBoard.gridCells[5], gameBoard.gridCells[8]],
+                cells: [2, 5, 8]
+            };
+            const firstDiag = {
+                array: [gameBoard.gridCells[0], gameBoard.gridCells[4], gameBoard.gridCells[8]],
+                cells: [0, 4, 8]
+            };
+            const secDiag = {
+                array: [gameBoard.gridCells[2], gameBoard.gridCells[4], gameBoard.gridCells[6]],
+                cells: [2, 4, 6]
+            };
+    
+            arrayChecker(topRow);
+            arrayChecker(midRow);
+            arrayChecker(botRow);
+            arrayChecker(leftCol);
+            arrayChecker(midCol);
+            arrayChecker(rightCol);
+            arrayChecker(firstDiag);
+            arrayChecker(secDiag);
 
-        arrayChecker(topRow);
-        arrayChecker(midRow);
-        arrayChecker(botRow);
-        arrayChecker(leftCol);
-        arrayChecker(midCol);
-        arrayChecker(rightCol);
-        arrayChecker(firstDiag);
-        arrayChecker(secDiag);
-
-        if (game.winner) {
+        if (secondExecCheck) {
+            if (game.winner) {
             game.winner.cells.forEach(element => {
                 (element.children[1]) ? element.children[1].classList.add(`blink-${game.winner.marker}`) :
                 element.children[0].classList.add(`blink-${game.winner.marker}`);
@@ -210,6 +215,7 @@ const gameBoard = (function() {
             gameBoard.cells.forEach(element => element.classList.add('blink-border'));
             game.isDraw = true;
         }
+        }        
     }
 
     return {
