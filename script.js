@@ -4,6 +4,7 @@ const game = (function() {
     let gameStarted = false;
     let winner = null;
     let isDraw = false;
+    let timeoutOn = false;
 
     const changeMode = function(e) {
         if (game.gameStarted === true) {
@@ -43,7 +44,7 @@ const game = (function() {
     }
 
     return {
-        playerTurn, gameStarted, changeMode, startOrReset, winner
+        playerTurn, gameStarted, changeMode, startOrReset, winner, isDraw, timeoutOn
     }    
 })();
 
@@ -77,7 +78,7 @@ const gameBoard = (function() {
 
     const computerMove = function() {
         let availableCells = [];
-        game.playerTurn = players.player2;
+        
         for (let i = 0; i < 9; i++) {
             if (!gameBoard.gridCells[i]) {
                 availableCells.push(i);
@@ -86,7 +87,9 @@ const gameBoard = (function() {
             }
         }
         availableCells = availableCells.filter(element => element !== false);
-        return [availableCells[Math.floor(Math.random() * availableCells.length)]];
+        gameBoard.gridCells[[availableCells[Math.floor(Math.random() * availableCells.length)]]] = players.player2.marker;
+        updateBoard(true);
+        game.timeoutOn = false;
     }
     
     const addMarker = function(e) {
@@ -94,13 +97,14 @@ const gameBoard = (function() {
             document.querySelector('#start-reset').classList.toggle('blink-bg');
         }  
         if (game.gameStarted === true && !game.winner && !game.isDraw && Array.from(e.target.children).every(element => element.textContent !== "X"
-        && element.textContent !== "O")) {
+        && element.textContent !== "O" && game.timeoutOn === false)) {
             gameBoard.gridCells[e.target.getAttribute('data-cell')] = game.playerTurn.marker;
-            updateBoard();
+            updateBoard(true);
             if (game.vsPlayer === false && gameBoard.gridCells.some(element => element === "") && !game.winner) {
-                gameBoard.gridCells[computerMove()] = players.player2.marker;
+                game.playerTurn = players.player2;
+                game.timeoutOn = true;
+                setTimeout(computerMove, 500);
             }
-        updateBoard(true);
         (game.playerTurn === players.player1) ? game.playerTurn = players.player2 : game.playerTurn = players.player1;
         }
     }
