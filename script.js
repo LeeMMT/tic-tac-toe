@@ -52,7 +52,7 @@ const gameBoard = (function() {
     const cells = document.querySelectorAll('div#game-board div');
     let gridCells = ['', '', '', '', '', '', '', '', ''];
     const swapMarkerBtn = document.querySelector('#icon-swap')
-    const updateBoard = function(secondExecCheck) {
+    const updateBoard = function() {
         cells.forEach(element => {
             if (element.children[1]) {
                 element.children[1].textContent = gameBoard.gridCells[element.getAttribute('data-cell')];
@@ -69,11 +69,7 @@ const gameBoard = (function() {
                 }
             }
     })
-    if (secondExecCheck) {
-        winCheck(true);
-    } else {
-        winCheck();
-    }
+    winCheck();
     }
 
     const computerMove = function() {
@@ -88,7 +84,7 @@ const gameBoard = (function() {
         }
         availableCells = availableCells.filter(element => element !== false);
         gameBoard.gridCells[[availableCells[Math.floor(Math.random() * availableCells.length)]]] = players.player2.marker;
-        updateBoard(true);
+        updateBoard();
         game.timeoutOn = false;
     }
     
@@ -99,7 +95,7 @@ const gameBoard = (function() {
         if (game.gameStarted === true && !game.winner && !game.isDraw && Array.from(e.target.children).every(element => element.textContent !== "X"
         && element.textContent !== "O" && game.timeoutOn === false)) {
             gameBoard.gridCells[e.target.getAttribute('data-cell')] = game.playerTurn.marker;
-            updateBoard(true);
+            updateBoard();
             if (game.vsPlayer === false && gameBoard.gridCells.some(element => element === "") && !game.winner) {
                 game.playerTurn = players.player2;
                 game.timeoutOn = true;
@@ -155,7 +151,7 @@ const gameBoard = (function() {
     }    
     }
 
-    const winCheck = function(secondExecCheck) {
+    const winCheck = function() {
             const topRow = {
                 array: gameBoard.gridCells.slice(0, 3),
                 cells: [0, 1, 2]
@@ -198,7 +194,6 @@ const gameBoard = (function() {
             arrayChecker(firstDiag);
             arrayChecker(secDiag);
 
-        if (secondExecCheck) {
             if (game.winner) {
             game.winner.cells.forEach(element => {
                 (element.children[1]) ? element.children[1].classList.add(`blink-${game.winner.marker}`) :
@@ -218,8 +213,7 @@ const gameBoard = (function() {
             document.querySelector('#flex-row').appendChild(resultText);
             gameBoard.cells.forEach(element => element.classList.add('blink-border'));
             game.isDraw = true;
-        }
-        }        
+        }   
     }
 
     return {
