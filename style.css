@@ -188,7 +188,11 @@ h1 {
   font-style: italic;
 }
 
-#game-board:hover {
+.game-board-started:hover {
+  cursor: pointer;
+}
+
+div[data-cell="5"]:hover {
   cursor: pointer;
 }
 

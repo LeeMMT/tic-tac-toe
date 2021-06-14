@@ -5,12 +5,22 @@ const game = (function() {
     let winner = null;
     let isDraw = false;
 
-    const changeMode = e => {
-        (this.textContent === "Player") ? vsPlayer = false : vsPlayer = true;
+    const changeMode = function(e) {
+        if (game.gameStarted === true) {
+            return;
+        }
+        if (this.children[0].textContent === "Player") {
+            game.vsPlayer = false;
+            this.children[0].textContent = "Computer";
+        } else {
+            game.vsPlayer = true;
+            this.children[0].textContent = "Player";
+        }
     }
 
     const startOrReset = function(e) {
         if (this.children[0].textContent === "Start") {
+            document.querySelector('#game-board').classList.toggle('game-board-started');
             gameBoard.cells[5].classList.toggle('mode-selector');
             game.gameStarted = true;
             document.querySelector('#vs').style.display = "none";
@@ -23,17 +33,17 @@ const game = (function() {
             });
             gameBoard.swapMarkerBtn.classList.add('fade-out');
         } else {
+            document.querySelector('#game-board').classList.toggle('game-board-started');
             gameBoard.cells[5].classList.toggle('mode-selector');
             gameBoard.swapMarkerBtn.classList.remove('fade-out');
             gameBoard.resetBoard(this);
             document.querySelectorAll('p.mode-text').forEach(element => element.style.display = "initial");
             document.querySelector('#vs').style.display = "initial";
-            game.vsPlayer = true;
         }
     }
 
     return {
-        playerTurn, gameStarted, startOrReset, winner
+        playerTurn, gameStarted, changeMode, startOrReset, winner
     }    
 })();
 
@@ -44,34 +54,55 @@ const gameBoard = (function() {
     const updateBoard = function() {
         cells.forEach(element => {
             if (element.children[1]) {
-                element.children[1].textContent = gridCells[element.getAttribute('data-cell')];
+                element.children[1].textContent = gameBoard.gridCells[element.getAttribute('data-cell')];
                 if (element.children[1].textContent) {
                     let marker = element.children[1].textContent;
                 element.children[1].classList.add(`${marker}-marker`);
                 }
             }
             if (!element.children[1]) {
-                element.children[0].textContent = gridCells[element.getAttribute('data-cell')];
+                element.children[0].textContent = gameBoard.gridCells[element.getAttribute('data-cell')];
                 if (element.children[0].textContent) {
                     let marker = element.children[0].textContent;
-                element.children[0].classList.add(`${marker}-marker`);
+                    element.children[0].classList.add(`${marker}-marker`);
                 }
             }
     })
     winCheck();
     }
+
+    const computerMove = function() {
+        let availableCells = [];
+        game.playerTurn = players.player2;
+        for (let i = 0; i < 9; i++) {
+            if (!gameBoard.gridCells[i]) {
+                availableCells.push(i);
+            } else {
+                availableCells.push(false);
+            }
+        }
+        availableCells = availableCells.filter(element => element !== false);
+        return [availableCells[Math.floor(Math.random() * availableCells.length)]];
+    }
+    
     const addMarker = function(e) {
-        if (game.gameStarted === true && !game.winner && !game.isDraw && Array.from(e.target.children).every(element => element.textContent !== "X"
-        && element.textContent !== "O")) {
-            gridCells[e.target.getAttribute('data-cell')] = game.playerTurn.marker;
-            updateBoard();
-            (game.playerTurn === players.player1) ? game.playerTurn = players.player2: game.playerTurn = players.player1;
-        } else if (game.gameStarted === false) {
+        if (game.gameStarted === false) {
             document.querySelector('#start-reset').classList.toggle('blink-bg');
         }  
+        if (game.gameStarted === true && !game.winner && !game.isDraw && Array.from(e.target.children).every(element => element.textContent !== "X"
+        && element.textContent !== "O")) {
+            gameBoard.gridCells[e.target.getAttribute('data-cell')] = game.playerTurn.marker;
+            
+            if (game.vsPlayer === false && gameBoard.gridCells.some(element => element === "")) {
+                gameBoard.gridCells[computerMove()] = players.player2.marker;
+            }
+            updateBoard();
+            (game.playerTurn === players.player1) ? game.playerTurn = players.player2 : game.playerTurn = players.player1;
+        }
     }
+
     const resetBoard = function(e) {
-        gridCells = ['', '', '', '', '', '', '', '', ''];
+        gameBoard.gridCells = ['', '', '', '', '', '', '', '', ''];
         game.gameStarted = false;
         game.isDraw = false;
         if (document.querySelector('p.fade-in')) {
@@ -116,37 +147,37 @@ const gameBoard = (function() {
     }    
     }
 
-    const winCheck = function() {
+    const winCheck = function(secondExecCheck) {
         const topRow = {
-            array: gridCells.slice(0, 3),
+            array: gameBoard.gridCells.slice(0, 3),
             cells: [0, 1, 2]
         };
         const midRow = {
-            array: gridCells.slice(3, 6),
+            array: gameBoard.gridCells.slice(3, 6),
             cells: [3, 4, 5]
         };
         const botRow = {
-            array: gridCells.slice(6),
+            array: gameBoard.gridCells.slice(6),
             cells: [6,7,8]
         };
         const leftCol = {
-            array: [gridCells[0], gridCells[3], gridCells[6]],
+            array: [gameBoard.gridCells[0], gameBoard.gridCells[3], gameBoard.gridCells[6]],
             cells: [0, 3, 6]
         };
         const midCol = {
-            array: [gridCells[1], gridCells[4], gridCells[7]],
+            array: [gameBoard.gridCells[1], gameBoard.gridCells[4], gameBoard.gridCells[7]],
             cells: [1, 4, 7]
         };
         const rightCol = {
-            array: [gridCells[2], gridCells[5], gridCells[8]],
+            array: [gameBoard.gridCells[2], gameBoard.gridCells[5], gameBoard.gridCells[8]],
             cells: [2, 5, 8]
         };
         const firstDiag = {
-            array: [gridCells[0], gridCells[4], gridCells[8]],
+            array: [gameBoard.gridCells[0], gameBoard.gridCells[4], gameBoard.gridCells[8]],
             cells: [0, 4, 8]
         };
         const secDiag = {
-            array: [gridCells[2], gridCells[4], gridCells[6]],
+            array: [gameBoard.gridCells[2], gameBoard.gridCells[4], gameBoard.gridCells[6]],
             cells: [2, 4, 6]
         };
 
@@ -170,7 +201,7 @@ const gameBoard = (function() {
             resultText.textContent = `${game.winner.name} is the winner`;
             swapMarkerBtn.style.display = "none";
             document.querySelector('#flex-row').appendChild(resultText);
-        } else if (gridCells.every(element => element.length > 0)) {
+        } else if (gameBoard.gridCells.every(element => element.length > 0)) {
             const resultText = document.createElement('p');
             resultText.classList.add('fade-in');
             resultText.textContent = "It's a draw";
@@ -224,7 +255,7 @@ const players = (function() {
 })();
 
 function onPageLoad() {
-    gameBoard.cells[5].addEventListener('click', changeMode);
+    gameBoard.cells[5].addEventListener('click', game.changeMode);
     gameBoard.swapMarkerBtn.addEventListener('click', players.swapMarkers);
     document.querySelector('#game-board').addEventListener('click', gameBoard.addMarker);
     document.querySelector('#start-reset').addEventListener('click', game.startOrReset);
