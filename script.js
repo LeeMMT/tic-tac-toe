@@ -89,7 +89,7 @@ const gameBoard = (function() {
     }
     
     const addMarker = function(e) {
-        if (game.gameStarted === false) {
+        if (game.gameStarted === false && e.target !== gameBoard.cells[5] && e.target !== gameBoard.cells[5].children[0]) {
             document.querySelector('#start-reset').classList.toggle('blink-bg');
         }  
         if (game.gameStarted === true && !game.winner && !game.isDraw && Array.from(e.target.children).every(element => element.textContent !== "X"
